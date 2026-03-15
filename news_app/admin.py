@@ -1,7 +1,8 @@
 from django.contrib import admin
 
 # Register your models here.
-from news_app.models import  News,Category
+from news_app.models import News, Category, Contact
+
 
 @admin.register(News)
 class NewsAdmin(admin.ModelAdmin):
@@ -15,3 +16,5 @@ class NewsAdmin(admin.ModelAdmin):
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ['id','title']
+
+admin.site.register(Contact)
