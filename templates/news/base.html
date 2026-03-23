@@ -32,12 +32,35 @@
         <div class="header_top">
           <div class="header_top_left">
             <ul class="top_nav">
-              <li><a href="{% url 'home' %}">Home</a></li>
-              <li><a href="#">About</a></li>
-              <li><a href="{% url 'contact' %}">Contact</a></li>
+              <li><a href="{% url 'home' %}">Bosh sahifa</a></li>
+              <li><a href="#">Biz haqimizda</a></li>
+              <li><a href="{% url 'contact' %}">Biz bilan aloqa</a></li>
+                {% if user.is_authenticated and user.is_superuser %}
+                <li><a href="{% url 'admin_page' %}">Admin sahifasi</a> </li>
+                {% endif %}
             </ul>
           </div>
           <div class="header_top_right">
+              {% if request.user.is_authenticated %}
+    <div class="dropdown" style="display:inline-block; position:relative;">
+        <a href="#" style="color:yellow;" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display=='block'?'none':'block'; return false;">
+            👤 {{ request.user.username }} ▾
+        </a>
+        <div style="display:none; position:absolute; right:0; background:#222; min-width:150px; z-index:999; border-radius:4px; padding:5px 0;">
+            <a href="{% url 'user_profile' %}" style="display:block; color:yellow; padding:8px 15px; text-decoration:none;">
+                👤 My profile
+            </a>
+            <form method="POST" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" style="width:100%; background:none; border:none; color:#ff6b6b; cursor:pointer; padding:8px 15px; text-align:left;">
+                    🚪 Chiqish
+                </button>
+            </form>
+        </div>
+    </div>
+{% else %}
+    <p><a href="{% url 'login' %}" style="color:yellow">Saytga kirish</a></p>
+{% endif %}
             <p>{% now "jS F Y H:i" %}</p>
           </div>
         </div>
@@ -69,6 +92,11 @@
             <li><a href="{% url 'technology_news' %}">Texnologiya</a></li>
             <li><a href="{% url 'sport_news' %}">Sport</a></li>
             <li><a href="{% url 'contact' %}">Biz bilan aloqa</a></li>
+            <li>
+                <form method="get" action="{% url 'search_results' %}">
+                    <input type="search" name="q" placeholder="Qidiruv..." class="form-control">
+                </form>
+            </li>
 
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Mobile</a>
             <ul class="dropdown-menu" role="menu">
